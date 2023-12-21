@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>bezoeker</title>
+</head>
+<body>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <div class="container mx-auto">
+    <h1 class="tet-3xl font-semibold my-8">Bezoeker: {{ bezoekers[0].naam }}</h1>
+        <ul class="list-none pl-0">
+            {% for presentatie in presentaties %}
+            <li class="border-[1px] border-black rounded-sm max-w[400px] mb-4 p-6">
+                <h3 class="text-xl mb-4">{{ presentatie.id }}</h3>
+                <p class="mb-4">{{ presentatie.beschrijving }}</p>
+                <button id="{{ presentatie.id }}" class="inschrijf_button border-2 border-black px-4 py-2">Inschrijven voor presentatie</button>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+    <button id="myButton">Click me</button>
+    <script>
+    function bezoekerToevoegenAanPresentatie(presentatieId) {
+        console.log("presentatieId")
+        console.log(presentatieId)
+        // Use JavaScript to make an asynchronous request to your Flask route
+        fetch(`/call_python_function`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+            presentatieId: presentatieId,
+            bezoekerId: "123",
+        }),
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log(data);
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    }
+    document.getElementById("myButton").onclick = bezoekerToevoegenAanPresentatie;
+
+    document.querySelectorAll('.inschrijf_button').forEach(function(button) {
+        button.onclick = function() {
+            bezoekerToevoegenAanPresentatie(this.id)
+        };
+    });
+    </script>
+</body>
+</html>
