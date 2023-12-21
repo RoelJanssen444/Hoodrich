@@ -1,0 +1,42 @@
+<!-- layout.html -->
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}My Flask App{% endblock %}</title>
+</head>
+<body>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <header>
+        <div class="w-60 bg-gray-800 h-screen fixed top-0 left-0 text-white">
+            <h1 class="text-2xl mb-8 bg-gray-700 p-6 mb-6">Dashbord</h1>
+            <div class="flex flex-col gap-2 cursor-pointer ">
+                <a href="/bezoeker/inschrijvingen" class="hover:bg-gray-600 p-3">
+                    <div class="flex flex-row gap-2">
+                        <img  src="{{ url_for('static', filename='lijst.svg') }}" alt="SVG Image">
+                        <h3>Mijn inschrijvingen</h3>
+                    </div>
+                </a>
+                <a href="/bezoeker/presentaties" class="hover:bg-gray-600 p-3">
+                    <div class="flex flex-row gap-2">
+                        <img  src="{{ url_for('static', filename='presentatie.svg') }}" alt="SVG Image">
+                        <h3>Alle presentaties</h3>
+                    </div>
+                </a>
+                <a href="/bezoeker/agenda" class="hover:bg-gray-600 p-3">
+                    <div class="flex flex-row gap-2">
+                        <img  src="{{ url_for('static', filename='agenda.svg') }}" alt="SVG Image">
+                        <h3>Mijn agenda</h3>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <div class="ml-60 p-8">
+        {% block content %}{% endblock %}
+    </div>
+
+</body>
+</html>
