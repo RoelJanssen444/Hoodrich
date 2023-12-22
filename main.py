@@ -2,7 +2,7 @@
 from classes import *
 from flask import jsonify
 
-bezoeker1 = Bezoeker(101, "sjef", "voorbeel@gmil.com")
+bezoeker1 = Bezoeker(101, "sjef", "voorbeel@gmil.com", ["403", "404"])
 bezoeker2 = Bezoeker(102, "emma", "emma@email.com")
 bezoeker3 = Bezoeker(103, "thomas", "thomas@example.com")
 bezoeker4 = Bezoeker(104, "lisa", "lisa@mail.com")
@@ -76,22 +76,66 @@ def vind_presentatie(presentatie_id):
     return None
 
 
+def vind_bezoeker(bezoeker_id):
+    huidig_id = int(bezoeker_id)
+    for bezoeker in bezoekers:
+        if bezoeker.id == huidig_id:
+            return bezoeker
+    return None
+
+
 def bezoeker_toevoegen_aan_presentatie(bezoeker_id, presentatie_id):
     # Your Python logic here
     print("Python function executed!")
 
-    print(bezoeker_id)
-    print(presentatie_id)
+    # print(bezoeker_id)
+    # print(presentatie_id)
     target_presentatie = (
         presentatie for presentatie in presentaties if presentatie.id == presentatie_id)
-    print(target_presentatie)
+    # print(target_presentatie)
 
     huidige_presentatie = vind_presentatie(presentatie_id)
-    print(huidige_presentatie.bezoekers)
+    # print(huidige_presentatie.bezoekers)
     huidige_presentatie.bezoekers.append("aosjdlnkm;")
-    print(huidige_presentatie.bezoekers)
-    print("huidige_presentatie")
-    print(huidige_presentatie)
-    print(huidige_presentatie.naam)
+
+    huidige_bezoeker = vind_bezoeker(bezoeker_id)
+    huidige_bezoeker.presentaties.append(presentatie_id)
+
+    print("huidige_bezoeker")
+    print(huidige_bezoeker)
+    # print(huidige_presentatie.bezoekers)
+    # print("huidige_presentatie")
+    # print(huidige_presentatie)
+    # print(huidige_presentatie.naam)
+
+    return jsonify({"status": "success"})
+
+
+def bezoeker_verwijderen_van_presentatie(bezoeker_id, presentatie_id):
+    print("Python function executed!")
+    print("bezoeker verwijderen van presentatie")
+
+    print(bezoeker_id)
+    print(presentatie_id)
+    huidige_bezoeker = vind_bezoeker(bezoeker_id)
+    print("huidige_bezoeker")
+    print(huidige_bezoeker)
+    print(huidige_bezoeker.presentaties)
+    huidige_bezoeker.presentaties.remove(presentatie_id)
+    print(huidige_bezoeker.presentaties)
+
+    # huidige_presentatie = vind_presentatie(presentatie_id)
+    # # print(huidige_presentatie.bezoekers)
+    # huidige_presentatie.bezoekers.append("aosjdlnkm;")
+
+    # huidige_bezoeker = vind_bezoeker(bezoeker_id)
+    # huidige_bezoeker.presentaties.append(presentatie_id)
+
+    # print("huidige_bezoeker")
+    # print(huidige_bezoeker)
+    # print(huidige_presentatie.bezoekers)
+    # print("huidige_presentatie")
+    # print(huidige_presentatie)
+    # print(huidige_presentatie.naam)
 
     return jsonify({"status": "success"})

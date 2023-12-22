@@ -4,16 +4,18 @@
 
     <div class="container mx-auto">
         <h1 class="text-3xl mb-8">Mijn inschrijvingen</h1>
-        <p id="hidden-p">{{bezoekerId}}</p>
+        <span id="bezoeker_id" class="hidden">{{bezoeker.id}}</span>
         <div class="container mx-auto">
-            <!-- <h1 class="tet-3xl font-semibold my-8">Bezoeker: {{ bezoekerId }}</h1> -->
+            <h1 class="tet-3xl font-semibold my-8">Bezoeker: {{ bezoeker.id }}</h1>
             <ul class="list-none pl-0">
                 {% for presentatie in presentaties %}
-                <li class="border-[1px] border-black rounded-sm max-w[400px] mb-4 p-6">
-                    <h3 class="text-xl mb-4">{{ presentatie.id }}</h3>
-                    <p class="mb-4">{{ presentatie.beschrijving }}</p>
-                    <button id="{{ presentatie.id }}" class="inschrijf_button border-2 border-black px-4 py-2">Inschrijven voor presentatie</button>
-                </li>
+                    {% if presentatie.id | string in bezoeker.presentaties %}
+                        <li presentatie class="border-[1px] border-black rounded-sm max-w[400px] mb-4 p-6">
+                            <p>{{ presentatie.id }}</p>
+                            <p class="mb-4">{{ presentatie.beschrijving }}</p>
+                            <button id="{{ presentatie.id }}" class="inschrijf_button border-2 border-black px-4 py-2">Uitschrijven voor presentatie</button>
+                        </li>
+                    {% endif %}
                 {% endfor %}
             </ul>
         </div>
@@ -21,41 +23,44 @@
 
 
 
-<!-- <button id="myButton">Click me</button> -->
 <script>
-    var hiddenP = document.getElementById("hidden-p").innerHTML;
-    console.log("hiddenP");
-    console.log(hiddenP);
 
-// function bezoekerToevoegenAanPresentatie(presentatieId) {
-//     console.log("presentatieId")
-//     console.log(presentatieId)
-//     // Use JavaScript to make an asynchronous request to your Flask route
-//     fetch(`/call_python_function`, {
-//         method: 'POST',
-//         headers: {
-//             'Content-Type': 'application/json',
-//         },
-//         body: JSON.stringify({
-//         presentatieId: presentatieId,
-//         bezoekerId: "123",
-//     }),
-//     })
-//     .then(response => response.json())
-//     .then(data => {
-//         console.log(data);
-//     })
-//     .catch(error => {
-//         console.error('Error:', error);
-//     });
-// }
-// document.getElementById("myButton").onclick = bezoekerToevoegenAanPresentatie;
+    const bezoekerId = document.querySelector("#bezoeker_id").innerHTML
 
-// document.querySelectorAll('.inschrijf_button').forEach(function(button) {
-//     button.onclick = function() {
-//         bezoekerToevoegenAanPresentatie(this.id)
-//     };
-// });
+    function bezoekerVerwijderenVanPresentatie(presentatieId, thisElement) {
+        console.log("presentatieId")
+        console.log(presentatieId)
+        console.log(thisElement)
+        fetch(`/bezoeker_verwijderen_van_presentatie_link`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+            presentatieId: presentatieId,
+            bezoekerId: "101",
+        }),
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log("data");
+            console.log(data);
+            console.log("this")
+            console.log(thisElement)
+            console.log(thisElement.parentNode.remove())
+
+            
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    }
+
+    document.querySelectorAll('.inschrijf_button').forEach(function(button) {
+        button.onclick = function() {
+            bezoekerVerwijderenVanPresentatie(this.id, this)
+        };
+    });
 </script>
 
 {% endblock %}

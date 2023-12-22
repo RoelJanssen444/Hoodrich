@@ -1,14 +1,17 @@
+
 class Bezoeker(object):
-    def __init__(self, bezoeker_id, naam, email):
+    def __init__(self, bezoeker_id, naam, email, presentaties=[]):
         self.id = bezoeker_id
         self.naam = naam
         self.email = email
+        self.presentaties = presentaties
 
 
 class Presentator(object):
-    def __init__(self, presentator_id, naam):
+    def __init__(self, presentator_id, naam, presentaties=[]):
         self.id = presentator_id
         self.naam = naam
+        self.presentaties = presentaties
 
 
 class Presentatie(object):
